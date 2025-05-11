@@ -1,4 +1,3 @@
-import api from '@/api';
 import CommonTable from '@/components/common-table';
 
 // 模拟后端接口
@@ -14,8 +13,6 @@ const mockLoadList = async (params: any) => {
     age: Math.floor(Math.random() * 40) + 20,
   }));
 
-  api.auth.userList();
-
   return { data, total };
 };
 
@@ -26,9 +23,8 @@ const columns = [
 ];
 
 export default function Home() {
-  return (
-    <article>
-      <CommonTable columns={columns} loadList={mockLoadList} />
-    </article>
-  );
+  <div>
+    <h2>用户列表</h2>
+    <CommonTable columns={columns} loadList={mockLoadList} />
+  </div>;
 }

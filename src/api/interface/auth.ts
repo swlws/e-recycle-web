@@ -9,4 +9,8 @@ export default {
     url: '/api/user/update',
     method: 'POST',
   },
+  userList: {
+    url: '/api/user/list',
+    method: 'GET',
+  },
 };
