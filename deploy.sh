@@ -25,7 +25,7 @@ done
 echo "已选择服务器: $REMOTE_HOST ($SERVER_KEY)"
 
 # 定义远程服务器信息
-REMOTE_PATH="/root/e-recycle-web"
+REMOTE_PATH="/var/www/e-recycle-web"
 DIST_ZIP="dist.zip"
 
 # 打包前端代码
