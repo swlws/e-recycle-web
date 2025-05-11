@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { createBrowserRouter } from 'react-router-dom';
+import { createHashRouter } from 'react-router-dom';
 
 // 懒加载组件
 const Layout = lazy(() => import('../layout/main/index')); // 你需要创建一个 Layout 组件
@@ -12,7 +12,7 @@ const ScoreCenter = lazy(() => import('../views/score-center'));
 // 路由加载时的占位组件
 const Loading = () => <div>加载中...</div>;
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: '/',
     element: (
