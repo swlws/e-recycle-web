@@ -24,7 +24,7 @@ const columns = [
   {
     title: 'snapshot',
     dataIndex: 'snapshot',
-    render: (value: any, record: any) => {
+    render: (_value: any, record: any) => {
       const list = record?.snapshot?.map((item: any) => item.url);
       return (
         <>
@@ -38,7 +38,7 @@ const columns = [
   {
     title: 'location',
     dataIndex: 'location',
-    render: (value: any, record: any) => {
+    render: (_value: any, record: any) => {
       const { name, address } = record?.location || {};
       return (
         <>
