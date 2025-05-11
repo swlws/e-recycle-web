@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 $header-height: 60px;
 $header-bg: #001529;
 $active-color: #fff;
@@ -31,7 +33,8 @@ $content-bg: #f0f2f5;
         transition: color 0.3s;
 
         &:hover {
-          color: lighten($text-color, 15%);
+          // 使用 color.adjust 替代 lighten
+          color: color.adjust($text-color, $lightness: 15%);
         }
 
         &.active {
