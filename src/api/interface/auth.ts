@@ -11,6 +11,6 @@ export default {
   },
   userList: {
     url: '/api/user/list',
-    method: 'GET',
+    method: 'POST',
   },
 };
