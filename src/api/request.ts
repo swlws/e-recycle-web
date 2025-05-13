@@ -27,6 +27,8 @@ export const URL_PREFIX = '';
 const DEFAULT_METHOD = 'GET';
 const DEFAULT_HEADER = {
   'Content-Type': 'application/json',
+  'X-PLATFORM': 'web',
+  'X-USE-TOKEN': 'true',
 };
 
 function request(url: string, data: Record<string, any>, options: RequestOptions) {
