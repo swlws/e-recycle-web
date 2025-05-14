@@ -34,6 +34,7 @@ const DEFAULT_HEADER = {
 function request(url: string, data: Record<string, any>, options: RequestOptions) {
   const uid = CacheMgr.user.value?._id || '';
   const env = CacheMgr.env.value || '';
+  const token = CacheMgr.token.value || '';
 
   const method = options.method || DEFAULT_METHOD;
   const headers = {
@@ -41,6 +42,9 @@ function request(url: string, data: Record<string, any>, options: RequestOptions
     ...options.header,
     'X-UID': uid,
     'X-ENV': env,
+    'X-TOKEN': token,
+    'X-PLATFORM': 'web',
+    'X-USE-TOKEN': 'true',
   };
 
   return axios({
