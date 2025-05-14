@@ -8,7 +8,7 @@ export default class {
     return localStorage.getItem(STORAGE_KEY.TOKEN) || '';
   }
 
-  set value(token: string) {
+  setValue(token: string) {
     localStorage.setItem(STORAGE_KEY.TOKEN, token);
   }
 

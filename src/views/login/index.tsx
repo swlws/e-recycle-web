@@ -1,21 +1,44 @@
 import React, { useState } from 'react';
 import './index.scss';
+import api from '@/api';
+import CacheMgr from '@/cache';
+import { message } from 'antd'; // 导入 message 组件
+import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const [account, setAccount] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe /*setRememberMe*/] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
+  const navigate = useNavigate(); // 使用 useNavigate 钩子
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // 这里处理登录逻辑
-    console.log({ account, password, rememberMe });
+
+    api.auth.login({ account, password, auth: 'password' }).then((res) => {
+      if (res.r0 === 0) {
+        CacheMgr.token.setValue(res.res);
+        messageApi.open({
+          type: 'success',
+          content: '登录成功',
+          duration: 2,
+        });
+
+        navigate('/'); // 使用 navigate 函数导航到根路径
+      } else {
+        messageApi.open({
+          type: 'error',
+          content: '用户名或密码错误',
+          duration: 2,
+        });
+      }
+    });
   };
 
   return (
     <div className="login-container">
       <div className="login-background"></div>
       <div className="login-content">
+        {contextHolder}
         <form className="login-form" onSubmit={handleSubmit}>
           <h2>欢迎登录</h2>
           <div className="form-group">
