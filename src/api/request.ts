@@ -1,13 +1,14 @@
 import axios from 'axios';
 import type { AxiosResponse } from 'axios';
 import CacheMgr from '../cache';
+import { message } from 'antd'; // 导入 message 组件
+import { router } from '@/router';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 export interface RequestOptions {
   method: Method;
   header: Record<string, any>;
-  // 自定义的 apiName
   _apiName?: string;
   ignoreErrorTip?: boolean;
 }
@@ -22,7 +23,6 @@ type ApiMethod = (
   res: any;
 }>;
 
-// export const URL_PREFIX = "http://localhost:8808";
 export const URL_PREFIX = '';
 const DEFAULT_METHOD = 'GET';
 const DEFAULT_HEADER = {
@@ -60,22 +60,31 @@ function request(url: string, data: Record<string, any>, options: RequestOptions
     })
     .catch((err) => {
       if (!options?.header?.ignoreErrorTip) {
-        // 这里可以使用你的提示组件，比如 antd 的 message
-        console.error('网络错误');
+        message.error('网络错误');
       }
       return Promise.reject(err);
     });
 }
 
 function responseInterceptor(response: AxiosResponse, options: RequestOptions) {
+  // 自动更新 token
+  const nextToken = response.headers['X-NEXT-TOKEN'];
+  if (nextToken) {
+    CacheMgr.token.setValue(nextToken);
+  }
+
   if (response.status === 200) {
     const { r0, r1, res } = response.data;
 
-    // 允许显示错误信息
+    if (r0 === 401) {
+      CacheMgr.token.clear();
+      router.navigate('/login'); // 使用 router.navigate 进行页面跳转
+      return Promise.reject(new Error('未登录'));
+    }
+
     if (!options?.header?.ignoreErrorTip) {
       if (r0 !== 0 && r1) {
-        // 这里可以使用你的提示组件，比如 antd 的 message
-        console.error(r1);
+        message.error(r1);
       }
     }
 
